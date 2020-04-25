@@ -1,0 +1,68 @@
+body {
+    margin-left: 8vw;
+    margin-right: 8vw;
+    font-family: "Raleway", sans-serif;
+}
+
+#highlight {
+    font-family: "menlo", sans-serif;
+    font-weight: 200;
+    color: #A8201A;
+}
+
+a {
+    font-family: "menlo", sans-serif;
+    color: #A8201A;
+    text-decoration: underline;
+}
+
+img {
+    width: 50%;
+    height: auto;
+}
+
+/*
+ Stack from every-layout.dev
+ */
+
+.stack {
+  --space: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  
+}
+
+.stack > * {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.stack > * + * {
+  margin-top: var(--space);
+}
+
+/*
+ Sidebar from every-layout.dev
+ */
+.with-sidebar {
+  overflow: hidden;
+}
+
+.with-sidebar > * {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(5rem / 2 * -1);
+}
+
+.with-sidebar > * > * {
+  margin: calc(5rem / 2);
+  flex-basis: 20vw;
+  flex-grow: 1;
+}
+
+.with-sidebar > * > :last-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: calc(70% - 5rem);
+}

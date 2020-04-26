@@ -7,7 +7,7 @@ public extension Theme {
     static var cambardell: Self {
         Theme(
             htmlFactory: CambardellHTMLFactory(),
-            resourcePaths: ["Resources/theme/styles.css", "Resources/theme/font-rules.css"]
+            resourcePaths: ["Resources/theme/styles.css", "Resources/theme/font-rules.css", "Resources/theme/splash-colours.css"]
         )
     }
 }
@@ -17,10 +17,9 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
                        context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: index, on: context.site),
-            
+            .head(for: index, on: context.site, stylesheetPaths: ["splash-colours.css", "styles.css", "font-rules.css"]),
             .body(
-                //.header(for: context, selectedSection: nil),
+                .header(for: context, selectedSection: nil),
                 .wrapper(
                     .div(
                         .class("content"),
@@ -44,12 +43,17 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
                          context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: section, on: context.site),
+            .head(for: section, on: context.site, stylesheetPaths: ["splash-colours.css", "styles.css", "font-rules.css"]),
+            
             .body(
                 .header(for: context, selectedSection: section.id),
                 .wrapper(
-                    .h1(.text(section.title)),
-                    .itemList(for: section.items, on: context.site)
+                    .div(
+                        .class("stack"),
+                        .forEach(context.items(taggedWith: "swift")) { item in
+                            .swiftItem(for: item)
+                        }
+                    )
                 ),
                 .footer(for: context.site)
             )
@@ -160,34 +164,33 @@ private extension Node where Context == HTML.BodyContext {
         for context: PublishingContext<T>,
         selectedSection: T.SectionID?
     ) -> Node {
-        let sectionIDs = T.SectionID.allCases
-
         return .header(
-            .wrapper(
+            .div(
+                .class("stack"),
                 .a(.class("site-name"), .href("/"), .text(context.site.name)),
-                .if(sectionIDs.count > 1,
-                    .nav(
-                        .ul(.forEach(sectionIDs) { section in
-                            .li(.a(
-                                .class(section == selectedSection ? "selected" : ""),
-                                .href(context.sections[section].path),
-                                .text(context.sections[section].title)
-                            ))
-                        })
-                    )
+                .a(.class("swift-samples"), .href(context.sections[T.SectionID(rawValue: "swift")!].path),
+                   .text("\(context.sections[T.SectionID(rawValue: "swift")!].title) Samples")
                 )
             )
+        )
+    }
+    
+    // Swift sample post
+    static func swiftItem<T: Website>(for item: Item<T>) -> Node {
+        return .div(
+            .class("content"),
+            .contentBody(item.body)
         )
     }
     
     // App list below site title and description
     static func appGrid<T: Website>(for items: [Item<T>], on site: T) -> Node {
         return .div(
-                .class("grid"),
-                .forEach(items) { item in
-                    .appItem(for: item)
-                    
-                }
+            .class("grid"),
+            .forEach(items) { item in
+                .appItem(for: item)
+                
+            }
         )
     }
     

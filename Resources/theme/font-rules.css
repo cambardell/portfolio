@@ -9,3 +9,8 @@
     src: url("/fonts/Raleway/Raleway-Light.ttf");
     font-weight: Light;
 }
+
+@font-face {
+    font-family: "Manrope";
+    src: url("/fonts/Manrope/Manrope-Regular.ttf")
+}

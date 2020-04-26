@@ -2,8 +2,9 @@ body {
     margin-left: 8vw;
     margin-right: 8vw;
     margin-top: 4vw;
-    font-family: "Raleway", sans-serif;
+    font-family: "Manrope", sans-serif;
     font-size: 1.2rem;
+    line-height: 2.5rem;
 }
 
 h1, h2 {
@@ -46,11 +47,17 @@ img {
     padding: 1rem; 
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-radius: 1rem;
+    margin-top: 0.5rem; 
     transition: 0.2s;
 }
 
 #img-item:hover {
     transform: translateY(-0.7rem);
+}
+
+.selected {
+    background-color: #A8201A;
+    color: white; 
 }
 
 /*

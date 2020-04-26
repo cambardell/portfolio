@@ -18,7 +18,7 @@ struct Cambardell: Website {
     // Update these properties to configure your website:
     var url = URL(string: "https://cambardell.github.io")!
     var name = "Cameron Bardell"
-    var description = "A description of Cambardell"
+    var description = "Mostly swift, also physics at University of Waterloo"
     var language: Language { .english }
     var imagePath: Path? { nil }
 }

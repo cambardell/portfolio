@@ -1,13 +1,29 @@
 body {
     margin-left: 8vw;
     margin-right: 8vw;
+    margin-top: 4vw;
     font-family: "Raleway", sans-serif;
+    font-size: 1.2rem;
+}
+
+h1, h2 {
+    font-weight: 500;
 }
 
 #highlight {
     font-family: "menlo", sans-serif;
     font-weight: 200;
     color: #A8201A;
+
+}
+
+#app-title {
+    font-family: "menlo", sans-serif;
+    font-weight: 200;
+    color: #A8201A;
+/*    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+/*    padding: 7px;*/
+/*    border-radius: 1rem;*/
 }
 
 a {
@@ -16,9 +32,25 @@ a {
     text-decoration: underline;
 }
 
+#image-parent {
+    text-align: center;
+}
+
 img {
-    width: 50%;
+    width: 11rem;
     height: auto;
+     
+}
+
+#img-item {
+    padding: 1rem; 
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    border-radius: 1rem;
+    transition: 0.2s;
+}
+
+#img-item:hover {
+    transform: translateY(-0.7rem);
 }
 
 /*
@@ -65,4 +97,62 @@ img {
   flex-basis: 0;
   flex-grow: 999;
   min-width: calc(70% - 5rem);
+}
+
+/*
+Grid from every-layout.dev
+*/
+.grid {
+  display: grid;
+  grid-gap: 1rem;
+}
+
+@supports (width: min(250px, 100%)) {
+  .grid {
+    grid-template-columns: repeat(auto-fit, minmax(min(250px, 100%), 1fr));
+  }
+}
+
+/*
+ Reel from any-layout.dev
+ */
+.reel {
+  display: flex;
+  height: 20rem;
+  overflow-x: auto;
+  overflow-y: hidden;
+  
+  scrollbar-color: #fff #000;
+}
+
+.reel::-webkit-scrollbar {
+  height: 1rem;
+}
+
+.reel::-webkit-scrollbar-track {
+  background-color: #000;
+}
+
+.reel::-webkit-scrollbar-thumb {
+  background-color: #000;
+  background-image: linear-gradient(#000 0, #000 0.25rem, #fff 0.25rem, #fff 0.75rem, #000 0.75rem);
+}
+
+.reel > * {
+  flex: 0 0 20rem;
+}
+
+
+.reel > img {
+  height: 90%;
+  flex-basis: auto;
+  width: auto;
+}
+
+.reel > * + * {
+  margin-left: 1rem;
+}
+
+.reel.overflowing {
+  padding-bottom: 1rem;
 }

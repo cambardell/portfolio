@@ -26,8 +26,9 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
                         .class("content"),
                         .contentBody(index.body)
                     ),
-                    .appStack(
-                        for: context.allItems(
+                    .appGrid(
+                        for: context.items(
+                            taggedWith: "app",
                             sortedBy: \.date,
                             order: .descending
                         ),
@@ -180,9 +181,9 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     // App list below site title and description
-    static func appStack<T: Website>(for items: [Item<T>], on site: T) -> Node {
+    static func appGrid<T: Website>(for items: [Item<T>], on site: T) -> Node {
         return .div(
-                .class("stack"),
+                .class("grid"),
                 .forEach(items) { item in
                     .appItem(for: item)
                     
@@ -193,18 +194,21 @@ private extension Node where Context == HTML.BodyContext {
     // App item contained in app list
     static func appItem<T: Website>(for item: Item<T>) -> Node {
         return .div(
-            .class("with-sidebar"),
-            // intermediate div. See every-layout sidebar
+            .class("stack"),
+            //Wrapper to center images
             .div(
+                .id("image-parent"),
                 .div(
-                    .class("content"),
-                    .contentBody(item.body)
-                ),
-                .div(
-                    .class("content"),
-                    .img(.src("screenshots/\(item.title)_1.png")),
-                    .img(.src("screenshots/\(item.title)_2.png"))
+                    .id("img-item"),
+                    .img(.src("screenshots/\(item.description)_1.png")),
+                    .img(.src("screenshots/\(item.description)_2.png"))
                 )
+            ),
+        
+            .div(
+                .class("content"),
+                
+                .contentBody(item.body)
             )
         )
     }
@@ -242,11 +246,7 @@ private extension Node where Context == HTML.BodyContext {
                     .text("Publish"),
                     .href("https://github.com/johnsundell/publish")
                 )
-            ),
-            .p(.a(
-                .text("RSS feed"),
-                .href("/feed.rss")
-            ))
+            )
         )
     }
 }

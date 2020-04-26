@@ -15,8 +15,8 @@ struct Cambardell: Website {
     }
 
     // Update these properties to configure your website:
-    var url = URL(string: "https://your-website-url.com")!
-    var name = "Cambardell"
+    var url = URL(string: "https://cambardell.github.io")!
+    var name = "Cameron Bardell"
     var description = "A description of Cambardell"
     var language: Language { .english }
     var imagePath: Path? { nil }
@@ -27,6 +27,7 @@ try Cambardell().publish(using: [
     .addMarkdownFiles(),
     .copyResources(),
     .generateHTML(withTheme: .cambardell),
+    .deploy(using: .gitHub("cambardell/cambardell.github.io"))
     
 ])
 

@@ -50,7 +50,11 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
                 .wrapper(
                     .div(
                         .class("stack"),
-                        .forEach(context.items(taggedWith: "swift")) { item in
+                        .forEach(context.items(
+                            taggedWith: "swift",
+                            sortedBy: \.date,
+                            order: .descending
+                        )) { item in
                             .swiftItem(for: item)
                         }
                     )
@@ -177,9 +181,13 @@ private extension Node where Context == HTML.BodyContext {
     
     // Swift sample post
     static func swiftItem<T: Website>(for item: Item<T>) -> Node {
+        print(item.date)
         return .div(
             .class("content"),
-            .contentBody(item.body)
+            .id(item.title),
+            .contentBody(item.body),
+            .a(.href("#\(item.title)"),
+               .text(dateToString(date: item.date)))
         )
     }
     
@@ -194,7 +202,7 @@ private extension Node where Context == HTML.BodyContext {
         )
     }
     
-    // App item contained in app list
+    // App item contained in app grid
     static func appItem<T: Website>(for item: Item<T>) -> Node {
         return .div(
             .class("stack"),
@@ -207,10 +215,8 @@ private extension Node where Context == HTML.BodyContext {
                     .img(.src("screenshots/\(item.description)_2.png"))
                 )
             ),
-        
             .div(
                 .class("content"),
-                
                 .contentBody(item.body)
             )
         )
@@ -252,4 +258,10 @@ private extension Node where Context == HTML.BodyContext {
             )
         )
     }
+}
+
+func dateToString(date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateStyle = .short
+    return formatter.string(from: date)
 }

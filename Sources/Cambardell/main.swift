@@ -21,7 +21,7 @@ struct Cambardell: Website {
     var name = "Cameron Bardell"
     var description = "Mostly swift, also physics at University of Waterloo"
     var language: Language { .english }
-    var imagePath: Path? { "/Resources/headshot/IMG_6406.JPG" }
+    var imagePath: Path? { "/headshot/IMG_6406.JPG" }
 }
 
 

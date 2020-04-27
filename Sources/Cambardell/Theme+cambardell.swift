@@ -74,13 +74,11 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
                     .wrapper(
                         .div(
                             .class("stack"),
-                            .forEach(context.items(
+                            .resumeItem(for: context.items(
                                 taggedWith: "resume",
                                 sortedBy: \.date,
                                 order: .descending
-                            )) { item in
-                                .resumeItem(for: item)
-                            }
+                            ))
                         )
                     )
                 ),
@@ -120,19 +118,19 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
                       context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: page, on: context.site),
-            .if(page.path == "resume",
-                .body(
-                    .header(for: context, selectedSection: nil),
-                    .wrapper(
-                        .div(
-                            .class("resume"),
-                            .resumeItem(for: context.items(taggedWith: "resume")[0])
-                        )
-                    ),
-                    .footer(for: context.site)
-                )
-            )
+            .head(for: page, on: context.site)
+//            .if(page.path == "resume",
+//                .body(
+//                    .header(for: context, selectedSection: nil),
+//                    .wrapper(
+//                        .div(
+//                            .class("resume"),
+//                            .resumeItem(for: context.items(taggedWith: "resume")[0])
+//                        )
+//                    ),
+//                    .footer(for: context.site)
+//                )
+//            )
         )
     }
 
@@ -240,10 +238,18 @@ private extension Node where Context == HTML.BodyContext {
     }
     
     // Resume item
-    static func resumeItem<T: Website>(for item: Item<T>) -> Node {
+    static func resumeItem<T: Website>(for items: [Item<T>]) -> Node {
         return .div(
-            .class("content"),
-            .contentBody(item.body)
+            .class("resume-sidebar"),
+            .wrapper(
+                .wrapper(
+                    .contentBody(items[0].body)
+                ),
+                .wrapper(
+                    .contentBody(items[1].body)
+                )
+                
+            )
         )
     }
     

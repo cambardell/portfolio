@@ -12,9 +12,12 @@ body {
     font-size: 1.2rem;
 }
 
+h3 {
+    margin-bottom: -0.7rem;
+    margin-top: -0.7rem;
+}
 
-
-h1, h2 {
+h2 {
     font-weight: 500;
     font-family: "menlo", sans-serif;
     word-spacing: -0.3em;
@@ -44,3 +47,44 @@ a {
     text-decoration: underline;
 }
 
+#hidden-text {
+    color:#A8201A;
+}
+
+.resume-sidebar {
+  overflow: hidden;
+}
+
+.resume-sidebar > * {
+  display: flex;
+  flex-wrap: wrap;
+  margin: calc(2rem  / 2 * -1);
+}
+
+.resume-sidebar > * > * {
+  margin: calc(2rem  / 2);
+  flex-basis: 25rem;
+  flex-grow: 1;
+  
+}
+
+.resume-sidebar > * > :first-child {
+  flex-basis: 0;
+  flex-grow: 999;
+  min-width: calc(50% - 2rem );
+  
+}
+
+.resume-sidebar > * > :last-child {
+    padding-left: 1rem;
+    padding-right: 1rem; 
+    background: #A8201A;
+    color: white; 
+}
+
+.resume-sidebar > * > :last-child h2 {
+    color: white;
+    font-weight: 500;
+    font-family: "menlo", sans-serif;
+}
+  

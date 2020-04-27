@@ -7,7 +7,7 @@ public extension Theme {
     static var cambardell: Self {
         Theme(
             htmlFactory: CambardellHTMLFactory(),
-            resourcePaths: ["Resources/theme/styles.css", "Resources/theme/font-rules.css", "Resources/theme/splash-colours.css"]
+            resourcePaths: ["Resources/theme/styles.css", "Resources/theme/font-rules.css", "Resources/theme/splash-colours.css", "Resources/theme/resume-styles.css", "Resources/theme/every-layout-styles.css"]
         )
     }
 }
@@ -17,7 +17,7 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
                        context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
-            .head(for: index, on: context.site, stylesheetPaths: ["splash-colours.css", "styles.css", "font-rules.css"]),
+            .head(for: index, on: context.site, stylesheetPaths: ["splash-colours.css", "styles.css", "font-rules.css", "every-layout-styles.css"]),
             .body(
                 .header(for: context, selectedSection: nil),
                 .wrapper(
@@ -41,24 +41,52 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
 
     func makeSectionHTML(for section: Section<Site>,
                          context: PublishingContext<Site>) throws -> HTML {
-        HTML(
+        print(section.path)
+        return HTML(
             .lang(context.site.language),
-            .head(for: section, on: context.site, stylesheetPaths: ["splash-colours.css", "styles.css", "font-rules.css"]),
-            
+            .if(section.path == "resume",
+                .head(for: section, on: context.site, stylesheetPaths: ["resume-styles.css", "font-rules.css", "every-layout-styles.css"])
+            ),
+            .if(section.path != "resume",
+                 .head(for: section, on: context.site, stylesheetPaths: ["splash-colours.css", "styles.css", "font-rules.css", "every-layout-styles.css"])
+            ),
+           
             .body(
                 .header(for: context, selectedSection: section.id),
-                .wrapper(
-                    .div(
-                        .class("stack"),
-                        .forEach(context.items(
-                            taggedWith: "swift",
-                            sortedBy: \.date,
-                            order: .descending
-                        )) { item in
-                            .swiftItem(for: item)
-                        }
+                
+                // Swift samples section
+                .if(section.path == "swift",
+                    .wrapper(
+                        .div(
+                            .class("stack"),
+                            .forEach(context.items(
+                                taggedWith: "swift",
+                                sortedBy: \.date,
+                                order: .descending
+                            )) { item in
+                                .swiftItem(for: item)
+                            }
+                        )
                     )
                 ),
+                
+                .if(section.path == "resume",
+                    .wrapper(
+                        .div(
+                            .class("stack"),
+                            .forEach(context.items(
+                                taggedWith: "resume",
+                                sortedBy: \.date,
+                                order: .descending
+                            )) { item in
+                                .resumeItem(for: item)
+                            }
+                        )
+                    )
+                ),
+                
+                
+                
                 .footer(for: context.site)
             )
         )
@@ -66,7 +94,8 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
 
     func makeItemHTML(for item: Item<Site>,
                       context: PublishingContext<Site>) throws -> HTML {
-        HTML(
+
+        return HTML(
             .lang(context.site.language),
             .head(for: item, on: context.site),
             .body(
@@ -92,10 +121,17 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
         HTML(
             .lang(context.site.language),
             .head(for: page, on: context.site),
-            .body(
-                .header(for: context, selectedSection: nil),
-                .wrapper(.contentBody(page.body)),
-                .footer(for: context.site)
+            .if(page.path == "resume",
+                .body(
+                    .header(for: context, selectedSection: nil),
+                    .wrapper(
+                        .div(
+                            .class("resume"),
+                            .resumeItem(for: context.items(taggedWith: "resume")[0])
+                        )
+                    ),
+                    .footer(for: context.site)
+                )
             )
         )
     }
@@ -170,10 +206,22 @@ private extension Node where Context == HTML.BodyContext {
     ) -> Node {
         return .header(
             .div(
-                .class("stack"),
-                .a(.class("site-name"), .href("/"), .text(context.site.name)),
-                .a(.class("swift-samples"), .href(context.sections[T.SectionID(rawValue: "swift")!].path),
-                   .text("\(context.sections[T.SectionID(rawValue: "swift")!].title) Samples")
+                .id("header"),
+                .class("outer-cluster"),
+                .wrapper(
+                    .a(.class("site-name"), .href("/"), .text("Home")),
+                    .div(
+                        .class("inner-cluster"),
+                        .wrapper(
+                            
+                            .a(.class("swift-samples"), .href(context.sections[T.SectionID(rawValue: "swift")!].path),
+                               .text("\(context.sections[T.SectionID(rawValue: "swift")!].title) Samples")
+                            ),
+                            .a(.class("resume"), .href("/resume"),
+                               .text("Resume")
+                            )
+                        )
+                    )
                 )
             )
         )
@@ -181,13 +229,21 @@ private extension Node where Context == HTML.BodyContext {
     
     // Swift sample post
     static func swiftItem<T: Website>(for item: Item<T>) -> Node {
-        print(item.date)
+        
         return .div(
             .class("content"),
             .id(item.title),
             .contentBody(item.body),
             .a(.href("#\(item.title)"),
                .text(dateToString(date: item.date)))
+        )
+    }
+    
+    // Resume item
+    static func resumeItem<T: Website>(for item: Item<T>) -> Node {
+        return .div(
+            .class("content"),
+            .contentBody(item.body)
         )
     }
     

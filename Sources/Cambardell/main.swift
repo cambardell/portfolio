@@ -9,6 +9,7 @@ struct Cambardell: Website {
         // Add the sections that you want your website to contain here:
         case apps
         case swift
+        case resume
     }
 
     struct ItemMetadata: WebsiteItemMetadata {

@@ -1,14 +1,25 @@
+
 body {
     margin-left: 8vw;
     margin-right: 8vw;
     margin-top: 4vw;
     font-family: "Manrope", sans-serif;
-    font-size: 1.2rem;
+    font-size: 1rem;
     line-height: 2.5rem;
 }
 
+#header {
+    font-size: 1.2rem;
+}
+
+
+
 h1, h2 {
     font-weight: 500;
+    font-family: "menlo", sans-serif;
+    word-spacing: -0.3em;
+    color: #A8201A;
+    border-bottom: solid 1px;
 }
 
 #highlight {
@@ -31,32 +42,5 @@ a {
     font-family: "menlo", sans-serif;
     color: #A8201A;
     text-decoration: underline;
-}
-
-#image-parent {
-    text-align: center;
-}
-
-img {
-    width: 11rem;
-    height: auto;
-     
-}
-
-#img-item {
-    padding: 1rem; 
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-radius: 1rem;
-    margin-top: 0.5rem; 
-    transition: 0.2s;
-}
-
-#img-item:hover {
-    transform: translateY(-0.7rem);
-}
-
-.selected {
-    background-color: #A8201A;
-    color: white; 
 }
 

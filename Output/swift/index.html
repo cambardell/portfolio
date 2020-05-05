@@ -54,7 +54,41 @@
         <span class="keyword">self</span>.<span class="property">content</span> = content
     }
 }
-</code></pre><p>A SwiftUI component that takes the number of days in a month and lays out the given content in a grid. Made for the forthcoming version two of Ripple, an app for tracking mental health.</p><a href="#Month view for SwiftUI calendar">2020-04-26</a></div><div class="content" id="Creating an App Card with Publish"><h1>Creating an App Card with Publish</h1><pre><code><span class="comment">// App item contained in app list</span>
+</code></pre><p>A SwiftUI component that takes the number of days in a month and lays out the given content in a grid. Made for the forthcoming version two of Ripple, an app for tracking mental health.</p><a href="#Month view for SwiftUI calendar">2020-04-26</a></div><div class="content" id="Downloading from Firebase storage with SwiftUI"><h1>Downloading from Firebase storage with SwiftUI</h1><pre><code><span class="keyword">struct</span> VideoPlayer: <span class="type">View</span> {
+    <span class="keyword">let</span> storage = <span class="type">Storage</span>.<span class="call">storage</span>()
+    <span class="keyword">@State var</span> videoURL = <span class="string">""</span>
+    <span class="keyword">@State var</span> videoTitle: <span class="type">String</span>
+    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> {
+        <span class="type">VStack</span> {
+            
+            <span class="keyword">if</span> videoURL == <span class="string">""</span> {
+                <span class="type">Text</span>(<span class="string">"Downloading"</span>).<span class="call">onAppear</span>(perform: downloadFromFirebase)
+                
+                
+            } <span class="keyword">else</span> {
+                <span class="type">PlayerContainerView</span>(player: <span class="type">AVPlayer</span>(url: <span class="type">URL</span>(string: videoURL)!), url: videoURL)
+            }
+        }
+    }
+    
+    <span class="keyword">func</span> downloadFromFirebase() {
+        <span class="call">print</span>(<span class="string">"download called"</span>)
+        <span class="keyword">let</span> storageRef = storage.<span class="call">reference</span>()
+        <span class="keyword">let</span> videoRef = storageRef.<span class="call">child</span>(<span class="string">"</span>\(videoTitle)<span class="string">.mov"</span>)
+        <span class="comment">// Fetch the download URL</span>
+        videoRef.<span class="call">downloadURL</span> { url, error <span class="keyword">in
+            if let</span> error = error {
+                <span class="comment">// Handle any errors</span>
+                <span class="call">print</span>(<span class="string">"download error:</span> \(error)<span class="string">"</span>)
+                
+            } <span class="keyword">else</span> {
+                <span class="call">print</span>(<span class="string">"url:</span> \(<span class="type">String</span>(describing: url))<span class="string">"</span>)
+                <span class="keyword">self</span>.<span class="property">videoURL</span> = url?.<span class="property">absoluteString</span> ?? <span class="string">""</span>
+            }
+        }
+    }
+}
+</code></pre><p>Video is then displayed with AVPlayer and UIViewRepresentable. Next step is adding some kind of progress indicator.</p><a href="#Downloading from Firebase storage with SwiftUI">2020-04-26</a></div><div class="content" id="Creating an App Card with Publish"><h1>Creating an App Card with Publish</h1><pre><code><span class="comment">// App item contained in app list</span>
 <span class="keyword">static func</span> appItem&lt;T: <span class="type">Website</span>&gt;(for item: <span class="type">Item</span>&lt;<span class="type">T</span>&gt;) -&gt; <span class="type">Node</span> {
     <span class="keyword">return</span> .<span class="call">div</span>(
         .<span class="call">class</span>(<span class="string">"stack"</span>),

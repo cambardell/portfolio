@@ -1,0 +1,86 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Cameron Bardell"/><link rel="canonical" href="https://cambardell.github.io/apps/firebase-session"/><meta name="twitter:url" content="https://cambardell.github.io/apps/firebase-session"/><meta name="og:url" content="https://cambardell.github.io/apps/firebase-session"/><title>Firebase Authentication Session with SwiftUI | Cameron Bardell</title><meta name="twitter:title" content="Firebase Authentication Session with SwiftUI | Cameron Bardell"/><meta name="og:title" content="Firebase Authentication Session with SwiftUI | Cameron Bardell"/><meta name="description" content="SwiftUI firebase session"/><meta name="twitter:description" content="SwiftUI firebase session"/><meta name="og:description" content="SwiftUI firebase session"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Cameron Bardell"/><meta name="twitter:image" content="https://cambardell.github.io/headshot/IMG_6406.JPG"/><meta name="og:image" content="https://cambardell.github.io/headshot/IMG_6406.JPG"/></head><body class="item-page"><header><div id="header" class="outer-cluster"><div class="wrapper"><a class="site-name" href="/">Home</a><div class="inner-cluster"><div class="wrapper"><a class="swift-samples" href="/swift">Swift Samples</a><a class="resume" href="/resume">Resume</a></div></div></div></div></header><div class="wrapper"><article><div class="content"><h1>Firebase Authentication Session with SwiftUI</h1><pre><code><span class="keyword">class</span> FirebaseSession: <span class="type">ObservableObject</span> {
+    
+    <span class="comment">//MARK: Properties</span>
+    <span class="keyword">@Published var</span> workouts: [<span class="type">Workout</span>] = []
+    <span class="keyword">@Published var</span> exercises: [<span class="type">Exercise</span>] = []
+    
+    <span class="keyword">let</span> db = <span class="type">Firestore</span>.<span class="call">firestore</span>()
+    
+    <span class="keyword">var</span> didChange = <span class="type">PassthroughSubject</span>&lt;<span class="type">FirebaseSession</span>, <span class="type">Never</span>&gt;()
+    <span class="keyword">@Published var</span> session: <span class="type">User</span>? { <span class="keyword">didSet</span> { <span class="keyword">self</span>.<span class="property">didChange</span>.<span class="call">send</span>(<span class="keyword">self</span>) }}
+    <span class="keyword">var</span> handle: <span class="type">AuthStateDidChangeListenerHandle</span>?
+    
+    <span class="comment">//MARK: Authentication functions</span>
+    
+    <span class="keyword">func</span> listen () {
+        <span class="comment">// monitor authentication changes using firebase</span>
+        handle = <span class="type">Auth</span>.<span class="call">auth</span>().<span class="call">addStateDidChangeListener</span> { (auth, user) <span class="keyword">in
+            if let</span> user = user {
+                <span class="comment">// if we have a user, create a new user model</span>
+                <span class="call">print</span>(<span class="string">"Got user:</span> \(user)<span class="string">"</span>)
+                <span class="keyword">self</span>.<span class="property">session</span> = <span class="type">User</span>(
+                    uid: user.<span class="property">uid</span>,
+                    displayName: user.<span class="property">displayName</span>,
+                    email: user.<span class="property">email</span>
+                )
+            } <span class="keyword">else</span> {
+                <span class="comment">// if we don't have a user, set our session to nil</span>
+                <span class="keyword">self</span>.<span class="property">session</span> = <span class="keyword">nil</span>
+            }
+        }
+    }
+    
+    <span class="keyword">func</span> signUp(
+        email: <span class="type">String</span>,
+        password: <span class="type">String</span>,
+        handler: <span class="keyword">@escaping</span> <span class="type">AuthDataResultCallback</span>
+    ) {
+      
+        
+    }
+
+    <span class="keyword">func</span> signIn(
+        email: <span class="type">String</span>,
+        password: <span class="type">String</span>,
+        handler: <span class="keyword">@escaping</span> <span class="type">AuthDataResultCallback</span>
+        ) {
+        <span class="type">Auth</span>.<span class="call">auth</span>().<span class="call">signIn</span>(withEmail: email, password: password, completion: handler)
+    }
+
+    <span class="keyword">func</span> signOut () -&gt; <span class="type">Bool</span> {
+        <span class="keyword">do</span> {
+            <span class="keyword">try</span> <span class="type">Auth</span>.<span class="call">auth</span>().<span class="call">signOut</span>()
+            <span class="keyword">self</span>.<span class="property">session</span> = <span class="keyword">nil
+            return true</span>
+        } <span class="keyword">catch</span> {
+            <span class="keyword">return false</span>
+        }
+    }
+    
+    <span class="keyword">func</span> unbind () {
+        <span class="keyword">if let</span> handle = handle {
+            <span class="type">Auth</span>.<span class="call">auth</span>().<span class="call">removeStateDidChangeListener</span>(handle)
+        }
+    }
+
+}
+</code></pre><p>Using Combine's ObservableObject with Firebase and SwiftUI is a great way to track the authentication state of the user. This way, I can conditionally display SignIn or MainContent, depending on the user's auth state.</p><pre><code><span class="keyword">struct</span> ContentView: <span class="type">View</span> {
+    
+    <span class="keyword">@EnvironmentObject var</span> session: <span class="type">FirebaseSession</span>
+
+    <span class="keyword">func</span> getUser () {
+        <span class="call">print</span>(<span class="string">"appear"</span>)
+        session.<span class="call">listen</span>()
+    }
+    
+    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> {
+        <span class="type">Group</span> {
+          <span class="keyword">if</span> (session.<span class="property">session</span> != <span class="keyword">nil</span>) {
+            <span class="type">MainContent</span>().<span class="call">environmentObject</span>(session)
+          } <span class="keyword">else</span> {
+            <span class="type">SignIn</span>().<span class="call">environmentObject</span>(session)
+          }
+        }.<span class="call">onAppear</span>(perform: getUser)
+    }
+}
+</code></pre></div><span>Tagged with: </span><ul class="tag-list"><li><a href="/tags/swiftui">swiftui</a></li><li><a href="/tags/swift">swift</a></li><li><a href="/tags/firebase">firebase</a></li><li><a href="/tags/combine">combine</a></li></ul></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p></footer></body></html>

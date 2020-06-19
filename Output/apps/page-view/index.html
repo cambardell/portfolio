@@ -1,0 +1,39 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="og:site_name" content="Cameron Bardell"/><link rel="canonical" href="https://cambardell.github.io/apps/page-view"/><meta name="twitter:url" content="https://cambardell.github.io/apps/page-view"/><meta name="og:url" content="https://cambardell.github.io/apps/page-view"/><title>Page View in SwiftUI with spring animation | Cameron Bardell</title><meta name="twitter:title" content="Page View in SwiftUI with spring animation | Cameron Bardell"/><meta name="og:title" content="Page View in SwiftUI with spring animation | Cameron Bardell"/><meta name="description" content="SwiftUI page view"/><meta name="twitter:description" content="SwiftUI page view"/><meta name="og:description" content="SwiftUI page view"/><meta name="twitter:card" content="summary"/><link rel="stylesheet" href="/styles.css" type="text/css"/><meta name="viewport" content="width=device-width, initial-scale=1.0"/><link rel="shortcut icon" href="/images/favicon.png" type="image/png"/><link rel="alternate" href="/feed.rss" type="application/rss+xml" title="Subscribe to Cameron Bardell"/><meta name="twitter:image" content="https://cambardell.github.io/headshot/IMG_6406.JPG"/><meta name="og:image" content="https://cambardell.github.io/headshot/IMG_6406.JPG"/></head><body class="item-page"><header><div id="header" class="outer-cluster"><div class="wrapper"><a class="site-name" href="/">Home</a><div class="inner-cluster"><div class="wrapper"><a class="swift-samples" href="/swift">Swift Samples</a><a class="resume" href="/resume">Resume</a></div></div></div></div></header><div class="wrapper"><article><div class="content"><h1>Page View in SwiftUI with spring animation</h1><pre><code><span class="keyword">struct</span> PageView&lt;Content: <span class="type">View</span>&gt;: <span class="type">View</span> {
+    <span class="keyword">@Binding var</span> pageIndex: <span class="type">Int</span>
+    
+    <span class="keyword">let</span> pageCount: <span class="type">Int</span>
+
+    <span class="keyword">let</span> content: <span class="type">Content</span>
+
+    <span class="keyword">init</span>(pageCount: <span class="type">Int</span>, pageIndex: <span class="type">Binding</span>&lt;<span class="type">Int</span>&gt;, <span class="keyword">@ViewBuilder</span> content: () -&gt; <span class="type">Content</span>) {
+        <span class="keyword">self</span>.<span class="property">pageCount</span> = pageCount
+        <span class="keyword">self</span>.<span class="property">_pageIndex</span> = pageIndex
+        <span class="keyword">self</span>.<span class="property">content</span> = <span class="call">content</span>()
+    }
+    
+    <span class="keyword">@GestureState private var</span> translation: <span class="type">CGFloat</span> = <span class="number">0</span>
+
+    <span class="keyword">var</span> body: <span class="keyword">some</span> <span class="type">View</span> {
+        <span class="type">GeometryReader</span> { geometry <span class="keyword">in</span>
+            <span class="type">HStack</span>(spacing: <span class="number">0</span>) {
+                <span class="keyword">self</span>.<span class="property">content</span>.<span class="call">frame</span>(width: geometry.<span class="property">size</span>.<span class="property">width</span>)
+            }
+            .<span class="call">frame</span>(width: geometry.<span class="property">size</span>.<span class="property">width</span>, alignment: .<span class="dotAccess">leading</span>)
+            .<span class="call">offset</span>(x: -<span class="type">CGFloat</span>(<span class="keyword">self</span>.<span class="property">pageIndex</span>) * geometry.<span class="property">size</span>.<span class="property">width</span>)
+            .<span class="call">offset</span>(x: <span class="keyword">self</span>.<span class="property">translation</span>)
+            .<span class="call">animation</span>(.<span class="call">spring</span>(response: <span class="number">0.4</span>, dampingFraction: <span class="number">0.6</span>, blendDuration: <span class="number">0.2</span>))
+                
+            .<span class="call">gesture</span>(
+                <span class="type">DragGesture</span>().<span class="call">updating</span>(<span class="keyword">self</span>.$translation) { value, state, <span class="keyword">_ in</span>
+                    state = value.<span class="property">translation</span>.<span class="property">width</span>
+                }.<span class="call">onEnded</span> { value <span class="keyword">in
+                    
+                    let</span> offset = value.<span class="property">translation</span>.<span class="property">width</span> / geometry.<span class="property">size</span>.<span class="property">width</span>
+                    <span class="keyword">let</span> newIndex = (<span class="type">CGFloat</span>(<span class="keyword">self</span>.<span class="property">pageIndex</span>) - offset).<span class="call">rounded</span>()
+                    <span class="keyword">self</span>.<span class="property">pageIndex</span> = <span class="call">min</span>(<span class="call">max</span>(<span class="type">Int</span>(newIndex), <span class="number">0</span>), <span class="keyword">self</span>.<span class="property">pageCount</span> - <span class="number">1</span>)
+                }
+            )
+        }
+    }
+}
+</code></pre><p>A reusable page view component with a custom spring animation. Takes any content and supports any number of pages.</p></div><span>Tagged with: </span><ul class="tag-list"><li><a href="/tags/swiftui">swiftui</a></li><li><a href="/tags/swift">swift</a></li></ul></article></div><footer><p>Generated using <a href="https://github.com/johnsundell/publish">Publish</a></p></footer></body></html>

@@ -11,7 +11,7 @@ tags: resume
 ## Skills  
 *  Mobile app development and deployment for smartphones, including distribution through the App Store and Google Play.
 * Web development and deployment, including experience with mobile optimization and conforming to the World Wide Web Consortium's Web Content Accessibility Guidelines.
-* Data science, including analysis of large amounts of astronomical data, processing digital audio signals, and conputational physics. 
+* Data science, including analysis of large amounts of astronomical data, processing digital audio signals, and computational physics. 
 * Excellent time management skills, including balancing busy academic and entrepreneurial responsibilities while pursuing an undergraduate degree.
 
 ## Tools  

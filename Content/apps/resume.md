@@ -37,7 +37,7 @@ Firebase. Example industries include personal fitness and healthcare.
 * Software club for University of Waterloo undergraduates to learn mobile app development in an environment focused on peer mentorship and releasing products.
 
 ### Member of Watonomous student design team, Sep 2017 - Dec 2017
-* Member of a student-run team working to build a fully autonomous car to compete in the SAE Autodrive Challenge. Responsible for vehicl	e dynamics. 
+* Member of a student-run team working to build a fully autonomous car to compete in the SAE Autodrive Challenge. Responsible for vehicle dynamics. 
 
 ### Founder of PlayMyWay, Sep 2015 - Jun 2017
 * Designed and developed educational games for neurodiverse peers in high school to help them develop skills such as hand-eye coordination, shape sorting, telling time, and arithmetic.

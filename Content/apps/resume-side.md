@@ -20,6 +20,7 @@ tags: resume
 * Website development with HTML, CSS, and Bootstrap, as well as with the Publish static site generator. 
 * Web app development with React. 
 * Six years of experience analyzing data with Python, Numpy, and Matplotlib.
+* Some experience with CI/CD tools, including CircleCI and Fastlane.
 * Some experience with machine learning in TensorFlow, with a strong interest in pursuing further opportunities. 
 
 

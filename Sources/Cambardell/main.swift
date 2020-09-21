@@ -10,6 +10,7 @@ struct Cambardell: Website {
         case apps
         case swift
         case resume
+        case tos 
     }
 
     struct ItemMetadata: WebsiteItemMetadata {

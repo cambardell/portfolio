@@ -3,7 +3,7 @@ import Foundation
 import Plot
 
 public extension Theme {
-
+    
     static var cambardell: Self {
         Theme(
             htmlFactory: CambardellHTMLFactory(),
@@ -38,7 +38,7 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
             )
         )
     }
-
+    
     func makeSectionHTML(for section: Section<Site>,
                          context: PublishingContext<Site>) throws -> HTML {
         print(section.path)
@@ -48,9 +48,9 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
                 .head(for: section, on: context.site, stylesheetPaths: ["resume-styles.css", "font-rules.css", "every-layout-styles.css"])
             ),
             .if(section.path != "resume",
-                 .head(for: section, on: context.site, stylesheetPaths: ["splash-colours.css", "styles.css", "font-rules.css", "every-layout-styles.css"])
+                .head(for: section, on: context.site, stylesheetPaths: ["splash-colours.css", "styles.css", "font-rules.css", "every-layout-styles.css"])
             ),
-           
+            
             .body(
                 .header(for: context, selectedSection: section.id),
                 
@@ -83,16 +83,30 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
                     )
                 ),
                 
-                
-                
-                .footer(for: context.site)
+                .if(section.path == "tos",
+                    .wrapper(
+                        .div(
+                            .class("stack"),
+                            .tosItem(for: context.items(
+                                taggedWith: "tos",
+                                sortedBy: \.date,
+                                order: .descending
+                            ))
+                        )
+                    )
+                ),
+
+                    
+                    
+                    
+            .footer(for: context.site)
             )
         )
     }
-
+    
     func makeItemHTML(for item: Item<Site>,
                       context: PublishingContext<Site>) throws -> HTML {
-
+        
         return HTML(
             .lang(context.site.language),
             .head(for: item, on: context.site),
@@ -113,27 +127,27 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
             )
         )
     }
-
+    
     func makePageHTML(for page: Page,
                       context: PublishingContext<Site>) throws -> HTML {
         HTML(
             .lang(context.site.language),
             .head(for: page, on: context.site)
-//            .if(page.path == "resume",
-//                .body(
-//                    .header(for: context, selectedSection: nil),
-//                    .wrapper(
-//                        .div(
-//                            .class("resume"),
-//                            .resumeItem(for: context.items(taggedWith: "resume")[0])
-//                        )
-//                    ),
-//                    .footer(for: context.site)
-//                )
-//            )
+            //            .if(page.path == "resume",
+            //                .body(
+            //                    .header(for: context, selectedSection: nil),
+            //                    .wrapper(
+            //                        .div(
+            //                            .class("resume"),
+            //                            .resumeItem(for: context.items(taggedWith: "resume")[0])
+            //                        )
+            //                    ),
+            //                    .footer(for: context.site)
+            //                )
+            //            )
         )
     }
-
+    
     func makeTagListHTML(for page: TagListPage,
                          context: PublishingContext<Site>) throws -> HTML? {
         HTML(
@@ -160,7 +174,7 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
             )
         )
     }
-
+    
     func makeTagDetailsHTML(for page: TagDetailsPage,
                             context: PublishingContext<Site>) throws -> HTML? {
         HTML(
@@ -253,6 +267,15 @@ private extension Node where Context == HTML.BodyContext {
         )
     }
     
+    // TOS item
+    static func tosItem<T: Website>(for items: [Item<T>]) -> Node {
+        return .div(
+            .wrapper(
+                .contentBody(items[0].body)
+            )
+        )
+    }
+    
     // App list below site title and description
     static func appGrid<T: Website>(for items: [Item<T>], on site: T) -> Node {
         return .div(
@@ -283,7 +306,7 @@ private extension Node where Context == HTML.BodyContext {
             )
         )
     }
-
+    
     static func itemList<T: Website>(for items: [Item<T>], on site: T) -> Node {
         return .ul(
             .class("item-list"),
@@ -292,23 +315,23 @@ private extension Node where Context == HTML.BodyContext {
                     .h1(.a(
                         .href(item.path),
                         .text(item.title)
-                    )),
+                        )),
                     .tagList(for: item, on: site),
                     .p(.text(item.description))
-                ))
+                    ))
             }
         )
     }
-
+    
     static func tagList<T: Website>(for item: Item<T>, on site: T) -> Node {
         return .ul(.class("tag-list"), .forEach(item.tags) { tag in
             .li(.a(
                 .href(site.path(for: tag)),
                 .text(tag.string)
-            ))
-        })
+                ))
+            })
     }
-
+    
     static func footer<T: Website>(for site: T) -> Node {
         return .footer(
             .p(

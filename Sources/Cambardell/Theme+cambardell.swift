@@ -95,9 +95,6 @@ private struct CambardellHTMLFactory<Site: Website>: HTMLFactory {
                         )
                     )
                 ),
-
-                    
-                    
                     
             .footer(for: context.site)
             )

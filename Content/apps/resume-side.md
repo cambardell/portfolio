@@ -23,6 +23,5 @@ tags: resume
 * Web app development with React. 
 * Six years of experience analyzing data with Python, Numpy, and Matplotlib.
 * Some experience with CI/CD tools, including CircleCI and Fastlane.
-* Some experience with machine learning in TensorFlow, with a strong interest in pursuing further opportunities. 
 
 

@@ -5,7 +5,7 @@ tags: resume
 ---
 
 # <span id="resume-title">Cameron Bardell</span>
-##### cambardell3@gmail.com 613-827-6739 [cambardell.github.io](https://cambardell.github.io) [LinkedIn](https://www.linkedin.com/in/cameron-bardell/)
+##### cambardell3@gmail.com 613-827-6739 [cambardell.github.io](https://cambardell.github.io) [https://www.linkedin.com/in/cameron-bardell/](https://www.linkedin.com/in/cameron-bardell/)
 
 ## Experience  
 ### Software Engineering Intern at Ctrl Group, Sep 2020 - Present

@@ -11,15 +11,14 @@ tags: resume
 ### Software Engineering Intern at Ctrl Group, Sep 2020 - Present
 * Built internal tools to facilitate future development with SwiftUI, Combine, and Catalyst. 
 
-### SwiftUI Consultant, Jul 2020 - Present
-* Assisted with transition from UIKit to SwiftUI. Provided both architecture and code-level review of all aspects of the application. 
-
 ### Data Science Intern at Miovision, May 2020 - Aug 2020
 * Applied machine learning techniques to real-world road traffic problems. 
+* Built an internal dashboard for measuring traffic volumes. 
 
-### Freelance iOS Developer, May 2016 - Present  
+### Freelance iOS Developer and Consultant, May 2016 - Present  
 * Developed and released iOS apps for local businesses using Swift, SwiftUI, and Google
 Firebase. Example industries include personal fitness and healthcare. 
+* Assisted with transition from UIKit to SwiftUI. Provided both architecture and code-level review of all aspects of the application. 
 
 ### Tutor-Mentor at TutorBright, Apr 2019 - Oct 2019  
 * Tutored high school students in primarily math and science, at all levels.  
@@ -40,9 +39,6 @@ Firebase. Example industries include personal fitness and healthcare.
 
 ### Founder and President of UW Developers, Jun 2019 - Apr 2020
 * Software club for University of Waterloo undergraduates to learn mobile app development in an environment focused on peer mentorship and releasing products.
-
-### Member of Watonomous student design team, Sep 2017 - Dec 2017
-* Member of a student-run team working to build a fully autonomous car to compete in the SAE Autodrive Challenge. Responsible for vehicle dynamics. 
 
 ### Founder of PlayMyWay, Sep 2015 - Jun 2017
 * Designed and developed educational games for neurodiverse peers in high school to help them develop skills such as hand-eye coordination, shape sorting, telling time, and arithmetic.

@@ -35,7 +35,7 @@ Firebase. Example industries include personal fitness and healthcare.
 
 ## Extracurricular
 ### Open Source Maintainer, Sep 2020 - Present
-* Moved a previous project to an open source model, facilitating community development in an environment focused on helping beginners learn how to contribute to open source software. 
+* Maintained a public open source project for a production application. Responsibilities include code review, project management, and technical documentation.
 
 ### Founder and President of UW Developers, Jun 2019 - Apr 2020
 * Software club for University of Waterloo undergraduates to learn mobile app development in an environment focused on peer mentorship and releasing products.
